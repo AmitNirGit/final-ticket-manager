@@ -33,7 +33,7 @@ app.post('/api/tickets/:ticketId/done', async (req, res) => {
         }
     }
     await fs.writeFile('./data.json', JSON.stringify(dataFile));
-    res.send(req.params.ticketId + 'ticket is assinged as solved')
+    res.send(dataFile)
 });
 
 app.post('/api/tickets/:ticketId/undone', async (req, res) => {
@@ -46,7 +46,7 @@ app.post('/api/tickets/:ticketId/undone', async (req, res) => {
         }
     }
     await fs.writeFile('./data.json', JSON.stringify(dataFile));
-    res.send(req.params.ticketId + 'ticket is assinged as unsolved');
+    res.send(dataFile);
 
 });
 

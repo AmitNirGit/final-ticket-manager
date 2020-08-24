@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-// import Ticket from './components/Ticket'
+import TicketContainer from './components/TicketContainer';
 import './App.css';
+import ControlPanel from './components/ControlPanel';
 
 function App() {
+  const [searchValue, setSearchValue] = useState("");
+  const searchHandler = (event) => {
+    setSearchValue(event.currentTarget.value);
+
+  }
   return (
-    <main>
-    </main>
+    <div className='app-wrapper'>
+      <h1 className='header'>Ticket Manager</h1>
+      <ControlPanel searchHandler={searchHandler} />
+      <TicketContainer searchValue={searchValue} />
+    </div>
   );
 }
 
 export default App;
+
