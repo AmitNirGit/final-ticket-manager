@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import Ticket from './Ticket'
-const axios = require('axios');
-
-//${props.searchValue}
+import { get, post } from '../lib/restService';
 
 const TicketContainer = (props) => {
     const [ticketsArray, setTicketsArray] = useState([]);
-
     const unhiddenTickets = ticketsArray.filter((ticket) => {
         return !ticket.hide;
     })
     let selectedArray = unhiddenTickets;
 
     if (props.selectedRadioValue === "All") {
-        selectedArray = (unhiddenTickets);
+        selectedArray = unhiddenTickets;
     }
     else if (props.selectedRadioValue === "Solved") {
-        selectedArray = (unhiddenTickets.filter((ticket) => ticket.done));
+        selectedArray = unhiddenTickets.filter((ticket) => ticket.done);
     }
     else {
-        selectedArray = (unhiddenTickets.filter((ticket) => !ticket.done));
+        selectedArray = unhiddenTickets.filter((ticket) => !ticket.done);
     }
 
     const getTickets = async () => {
-        const { data } = await axios.get(`api/tickets?searchText=${props.searchValue}`);
+        const { data } = await get(`api/tickets?searchText=${props.searchValue}`);
         setTicketsArray(data);
     }
     const solvedHandler = async (ticketId) => {
-        const { data } = await axios.post(`api/tickets/${ticketId}/done`);
+        const { data } = await post(`api/tickets/${ticketId}/done`);
         setTicketsArray(data);
     }
     const unsolvedHandler = async (ticketId) => {
-        const { data } = await axios.post(`api/tickets/${ticketId}/undone`);
+        const { data } = await post(`api/tickets/${ticketId}/undone`);
         setTicketsArray(data);
     }
     const hideHandler = (ticketId) => {
@@ -74,8 +71,8 @@ const TicketContainer = (props) => {
 
             </div>
             {
-                selectedArray.map((ticket) => {
-                    return <Ticket solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} hideHandler={hideHandler}
+                selectedArray.map((ticket, index) => {
+                    return <Ticket key={index} solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} hideHandler={hideHandler}
                         title={ticket.title} content={ticket.content} userEmail={ticket.userEmail}
                         creationTime={ticket.creationTime} labels={ticket.labels} id={ticket.id} />
                 })
