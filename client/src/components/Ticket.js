@@ -15,7 +15,7 @@ const Ticket = (props) => {
                     {
                         (props.labels !== undefined ?
                             props.labels.map(label => {
-                                return (<span className='label'>{label}</span>)
+                                return (<span key={label} className='label'>{label}</span>)
                             }) : <span>no labels</span>
                         )
                     }
