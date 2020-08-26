@@ -2,10 +2,28 @@ import React, { useEffect, useState } from 'react';
 import Ticket from './Ticket'
 const axios = require('axios');
 
+//${props.searchValue}
+
 const TicketContainer = (props) => {
     const [ticketsArray, setTicketsArray] = useState([]);
-    async function getTickets() {
-        const { data } = await axios.get(`api/tickets/${props.searchValue}`);
+
+    const unhiddenTickets = ticketsArray.filter((ticket) => {
+        return !ticket.hide;
+    })
+    let selectedArray = unhiddenTickets;
+
+    if (props.selectedRadioValue === "All") {
+        selectedArray = (unhiddenTickets);
+    }
+    else if (props.selectedRadioValue === "Solved") {
+        selectedArray = (unhiddenTickets.filter((ticket) => ticket.done));
+    }
+    else {
+        selectedArray = (unhiddenTickets.filter((ticket) => !ticket.done));
+    }
+
+    const getTickets = async () => {
+        const { data } = await axios.get(`api/tickets?searchText=${props.searchValue}`);
         setTicketsArray(data);
     }
     const solvedHandler = async (ticketId) => {
@@ -16,59 +34,58 @@ const TicketContainer = (props) => {
         const { data } = await axios.post(`api/tickets/${ticketId}/undone`);
         setTicketsArray(data);
     }
+    const hideHandler = (ticketId) => {
+        setTicketsArray(() => {
+            return ticketsArray.map((ticket) => {
+                if (ticketId !== ticket.id) {
+                    return ticket;
+                }
+                else {
+                    ticket.hide = true;
+                    return ticket;
+                }
+            })
+        });
+    }
+    const restoreHandler = () => {
+        setTicketsArray(() => {
+            return ticketsArray.map((ticket) => {
+                if (ticket.hide) {
+                    ticket.hide = false;
+                }
+                return ticket;
+            })
+        });
+    }
 
     useEffect(() => {
         getTickets();
     }, [props.searchValue]);
+    const hiddenTicketsCounter = ticketsArray.length - unhiddenTickets.length;
 
-    const solved = ticketsArray.filter((ticket) => {
-        return ticket.done === true;
-    })
-    const unsolved = ticketsArray.filter((ticket) => {
-        return ticket.done !== true;
-    })
+    return (
+        <div className='ticketcontainer'>
+            <div className='sub-header'>
+                <div> showing {selectedArray.length} results</div>
+                <div id="hide-section">hidden:
+                    <span id='hideTicketsCounter'>{hiddenTicketsCounter}</span>
+                    <button id="restoreHideTickets" onClick={restoreHandler}>restore</button>
+                </div>
 
-    if (props.selectedRadioValue === "All") {
-        return (
-            <div className='ticketcontainer'>
-                {
-                    ticketsArray.map((ticket) => {
-                        {
-                            return <Ticket solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} title={ticket.title} content={ticket.content} userEmail={ticket.userEmail} creationTime={ticket.creationTime} labels={ticket.labels} id={ticket.id} />
-                        }
-                    })
-                }
             </div>
-        )
-    };
-    if (props.selectedRadioValue === "Solved") {
-        return (
-            <div className='ticketcontainer'>
-                {
-                    solved.map((ticket) => {
-                        {
-                            return <Ticket solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} title={ticket.title} content={ticket.content} userEmail={ticket.userEmail} creationTime={ticket.creationTime} labels={ticket.labels} id={ticket.id} />
-                        }
-                    })
-                }
-            </div>
-        )
-    };
-    if (props.selectedRadioValue === "Unsolved") {
-        return (
-            <div className='ticketcontainer'>
-                {
-                    unsolved.map((ticket) => {
-                        {
-                            return <Ticket solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} title={ticket.title} content={ticket.content} userEmail={ticket.userEmail} creationTime={ticket.creationTime} labels={ticket.labels} id={ticket.id} />
-                        }
-                    })
-                }
-            </div>
-        )
-    };
+            {
+                selectedArray.map((ticket) => {
+                    return <Ticket solvedHandler={solvedHandler} unsolvedHandler={unsolvedHandler} hideHandler={hideHandler}
+                        title={ticket.title} content={ticket.content} userEmail={ticket.userEmail}
+                        creationTime={ticket.creationTime} labels={ticket.labels} id={ticket.id} />
+                })
+            }
+        </div>
+    );
+
 
 }
+
 
 export default TicketContainer;
 

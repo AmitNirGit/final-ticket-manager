@@ -8,8 +8,32 @@
      /* background-color: rgb(189, 180, 174);  */
      display: flex;
      background-color: whitesmoke;
-     justify-content: space-around;
-     margin: 10px;
+     justify-content: space-between;
+     border-radius: 10px;
+     margin: 5px;
+     padding-left: 5px;
+}
+.sub-header{
+    font-size:0.5rem;
+    display: flex;
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    /* padding: 5px; */
+    /* justify-content: space-evenly; */
+    align-items: center;
+    padding-left: 15px;
+        
+}
+#hide-section{
+    color: silver;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+#restoreHideTickets{
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 0.4rem;
+    height: fit-content;
 }
 .ticket{
      display: flex;
@@ -38,7 +62,8 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size:xx-small;
     flex-basis: content;
-    
+    margin-top:15px;
+    background-color: silver;
 }
 .ticket-buttons{
     font-size: 5px;
@@ -46,6 +71,6 @@ align-self: flex-end ;
 flex-grow:1 ; 
 
 }
-.label-buttons{
-    font-size: 7px; 
+.label{
+    padding: 3px;
 }

@@ -15,10 +15,9 @@ const Ticket = (props) => {
                     {
                         (props.labels !== undefined ?
                             props.labels.map(label => {
-                                return (<span> {label} </span>)
-                            }) : <span> no labels</span>
+                                return (<span className='label'>{label}</span>)
+                            }) : <span>no labels</span>
                         )
-
                     }
                 </span>
             </div>
@@ -30,7 +29,9 @@ const Ticket = (props) => {
                     <Button onClick={() => {
                         props.unsolvedHandler(props.id)
                     }}>unsolved</Button>
-                    <Button>Hide</Button>
+                    <Button className='hideTicketButton' onClick={() => {
+                        props.hideHandler(props.id)
+                    }}>Hide</Button>
                 </ButtonGroup>
             </div>
         </div >
