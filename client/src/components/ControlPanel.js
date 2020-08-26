@@ -1,33 +1,46 @@
-import React, { useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React from 'react';
+import TextField from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import LabelCheckBox from './LabelCheckBox';
-// labels = [Corvid, Api, Guidelines, Collapse, Expand, Login, Problem, Tutorial, View, Count]
-//<LabelCheckBox />
 const ControlPanel = (props) => {
-    return (
+  return (
+    <form className='form'>
+      <div className='label-checkbox'>
+        <TextField
+          id='searchInput'
+          label='filter by topic'
+          onChange={props.searchHandler}
+        />
+      </div>
 
-        <form className='form'>
-            <div className='label-checkbox'>
-                <TextField id="searchInput" label="filter by topic" onChange={props.searchHandler} />
-            </div>
-
-            <div>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend">Show:</FormLabel>
-                    <RadioGroup row aria-label="filter" name="filter1" value={props.selectedRadioValue} onChange={props.handleRadioChange}>
-                        <FormControlLabel value="All" control={<Radio />} label="All" />
-                        <FormControlLabel value="Solved" control={<Radio />} label="Solved" />
-                        <FormControlLabel value="Unsolved" control={<Radio />} label="Unsolved" />
-                    </RadioGroup>
-                </FormControl>
-            </div>
-        </form>
-    );
-}
+      <div>
+        <FormControl component='fieldset'>
+          <FormLabel component='legend'>Show:</FormLabel>
+          <RadioGroup
+            row
+            aria-label='filter'
+            name='filter1'
+            value={props.selectedRadioValue}
+            onChange={props.handleRadioChange}>
+            <FormControlLabel value='All' control={<Radio />} label='All' />
+            <FormControlLabel
+              value='Solved'
+              control={<Radio />}
+              label='Solved'
+            />
+            <FormControlLabel
+              value='Unsolved'
+              control={<Radio />}
+              label='Unsolved'
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+    </form>
+  );
+};
 
 export default ControlPanel;
