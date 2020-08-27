@@ -1,7 +1,6 @@
 const express = require('express');
 const fs = require('fs').promises;
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,6 +42,4 @@ app.post('/api/tickets/:ticketId/undone', async (req, res) => {
   await fs.writeFile('./data.json', JSON.stringify(dataFile));
   res.send(dataFile);
 });
-
-app.listen(8080);
 module.exports = app;
