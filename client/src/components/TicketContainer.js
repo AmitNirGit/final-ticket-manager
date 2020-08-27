@@ -4,9 +4,7 @@ import { get, post } from '../lib/restService';
 
 const TicketContainer = (props) => {
   const [ticketsArray, setTicketsArray] = useState([]);
-  const unhiddenTickets = ticketsArray.filter((ticket) => {
-    return !ticket.hide;
-  });
+  const unhiddenTickets = ticketsArray.filter((ticket) => !ticket.hide);
   let selectedArray = unhiddenTickets;
 
   if (props.selectedRadioValue === 'All') {
@@ -30,26 +28,25 @@ const TicketContainer = (props) => {
     setTicketsArray(data);
   };
   const hideHandler = (ticketId) => {
-    setTicketsArray(() => {
-      return ticketsArray.map((ticket) => {
+    setTicketsArray(() =>
+      ticketsArray.map((ticket) => {
         if (ticketId !== ticket.id) {
           return ticket;
-        } else {
-          ticket.hide = true;
-          return ticket;
         }
-      });
-    });
+        ticket.hide = true;
+        return ticket;
+      })
+    );
   };
   const restoreHandler = () => {
-    setTicketsArray(() => {
-      return ticketsArray.map((ticket) => {
+    setTicketsArray(() =>
+      ticketsArray.map((ticket) => {
         if (ticket.hide) {
           ticket.hide = false;
         }
         return ticket;
-      });
-    });
+      })
+    );
   };
 
   useEffect(() => {
@@ -60,7 +57,11 @@ const TicketContainer = (props) => {
   return (
     <div className='ticketcontainer'>
       <div className='sub-header'>
-        <div> showing {selectedArray.length} results</div>
+        <div>
+          {' '}
+          showing
+          {selectedArray.length} results
+        </div>
         <div id='hide-section'>
           hidden:
           <span id='hideTicketsCounter'>{hiddenTicketsCounter}</span>
@@ -69,22 +70,20 @@ const TicketContainer = (props) => {
           </button>
         </div>
       </div>
-      {selectedArray.map((ticket, index) => {
-        return (
-          <Ticket
-            key={index}
-            solvedHandler={solvedHandler}
-            unsolvedHandler={unsolvedHandler}
-            hideHandler={hideHandler}
-            title={ticket.title}
-            content={ticket.content}
-            userEmail={ticket.userEmail}
-            creationTime={ticket.creationTime}
-            labels={ticket.labels}
-            id={ticket.id}
-          />
-        );
-      })}
+      {selectedArray.map((ticket, index) => (
+        <Ticket
+          key={`key${index}`}
+          solvedHandler={solvedHandler}
+          unsolvedHandler={unsolvedHandler}
+          hideHandler={hideHandler}
+          title={ticket.title}
+          content={ticket.content}
+          userEmail={ticket.userEmail}
+          creationTime={ticket.creationTime}
+          labels={ticket.labels}
+          id={ticket.id}
+        />
+      ))}
     </div>
   );
 };
