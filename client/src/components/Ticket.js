@@ -13,7 +13,7 @@ const Ticket = (props) => (
       ||
       <span>
         Creation time:
-        {props.creationTime}
+        {new Date(props.creationTime)}
       </span>{' '}
       ||
       <span>
