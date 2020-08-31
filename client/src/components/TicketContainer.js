@@ -21,6 +21,7 @@ const TicketContainer = (props) => {
   };
   const solvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/done`);
+    console.log('this ticket is solved now');
     setTicketsArray(data);
   };
   const unsolvedHandler = async (ticketId) => {
@@ -55,7 +56,7 @@ const TicketContainer = (props) => {
   const hiddenTicketsCounter = ticketsArray.length - unhiddenTickets.length;
 
   return (
-    <div className='ticketcontainer'>
+    <>
       <div className='sub-header'>
         <div>
           {' '}
@@ -70,21 +71,23 @@ const TicketContainer = (props) => {
           </button>
         </div>
       </div>
-      {selectedArray.map((ticket, index) => (
-        <Ticket
-          key={`key${index}`}
-          solvedHandler={solvedHandler}
-          unsolvedHandler={unsolvedHandler}
-          hideHandler={hideHandler}
-          title={ticket.title}
-          content={ticket.content}
-          userEmail={ticket.userEmail}
-          creationTime={ticket.creationTime}
-          labels={ticket.labels}
-          id={ticket.id}
-        />
-      ))}
-    </div>
+      <div className='ticketcontainer'>
+        {selectedArray.map((ticket, index) => (
+          <Ticket
+            key={`key${index}`}
+            solvedHandler={solvedHandler}
+            unsolvedHandler={unsolvedHandler}
+            hideHandler={hideHandler}
+            title={ticket.title}
+            content={ticket.content}
+            userEmail={ticket.userEmail}
+            creationTime={ticket.creationTime}
+            labels={ticket.labels}
+            id={ticket.id}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

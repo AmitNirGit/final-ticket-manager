@@ -29,10 +29,17 @@
   padding-left: 4px;
 }
 #restoreHideTickets {
+  cursor: pointer;
   padding-left: 4px;
   padding-right: 4px;
   font-size: 0.4rem;
   height: fit-content;
+}
+.ticketcontainer {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-auto-rows: minmax(100px, auto);
+  padding: 1px;
 }
 .ticket {
   display: flex;
@@ -40,31 +47,38 @@
   align-items: flex-start;
   /* background-color: rgb(189, 180, 174); */
   background-color: rgb(219, 216, 216);
-  padding: 10px;
-  margin: 10px;
+  padding: 5px;
+  margin: 5px;
   font-family: fantasy;
   border-radius: 10px;
   color: #26292e;
 }
 .ticket-title {
-  font-size: large;
+  font-size: xx-large;
 }
 .ticket-description {
-  font-size: x-small;
+  font-size: large;
   flex-basis: auto;
   font-family: Arial, Helvetica, sans-serif;
+  flex-grow: 1;
 }
 .ticket-foot {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: xx-small;
+  font-size: small;
   flex-basis: content;
-  margin-top: 15px;
+  /* margin-top: 15px; */
+  flex-shrink: 0;
   background-color: silver;
 }
+/* 
+align-self: flex-end;
+justify-self: flex-end;
+align-items: flex-end;
+align-items: flex-end;
+*/
 .ticket-buttons {
   font-size: 5px;
   align-self: flex-end;
-  flex-grow: 1;
 }
 .label {
   padding: 3px;

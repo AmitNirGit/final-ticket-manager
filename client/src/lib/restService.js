@@ -4,7 +4,7 @@ export const get = async (url) => {
   try {
     return axios.get(url);
   } catch (error) {
-    console('err on url', url);
+    console('request on get method has failed', url);
     return null;
   }
 };

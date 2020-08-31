@@ -11,7 +11,7 @@ const ControlPanel = (props) => (
     <div className='label-checkbox'>
       <TextField
         id='searchInput'
-        label='filter by topic'
+        label='search by topic'
         onChange={props.searchHandler}
       />
     </div>
