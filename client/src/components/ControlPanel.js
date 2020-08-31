@@ -5,9 +5,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-//import SearchIcon from '@material-ui/icons/SearchIcon';
-import InputAdornment from '@material-ui/core/InputAdornment';
-//import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const ControlPanel = (props) => (
   <form className='form'>
