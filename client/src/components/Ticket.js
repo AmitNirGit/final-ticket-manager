@@ -4,6 +4,15 @@ import { Button, ButtonGroup } from '@material-ui/core';
 const Ticket = (props) => {
   return (
     <div className='ticket'>
+      {props.done ? (
+        <div>
+          <mark>solved</mark>
+        </div>
+      ) : (
+        <div>
+          <p className='unsolved'>unsolved</p>
+        </div>
+      )}
       <div className='ticket-title'>{props.title}</div>
       <div className='ticket-description'>{props.content}</div>
       <div className='ticket-foot'>
@@ -33,7 +42,7 @@ const Ticket = (props) => {
       </div>
       <div className='ticket-buttons'>
         <ButtonGroup
-          size='small'
+          size='large'
           variant='text'
           aria-label='text primary button group'>
           <Button

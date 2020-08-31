@@ -21,7 +21,6 @@ const TicketContainer = (props) => {
   };
   const solvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/done`);
-    console.log('this ticket is solved now');
     setTicketsArray(data);
   };
   const unsolvedHandler = async (ticketId) => {
@@ -49,27 +48,28 @@ const TicketContainer = (props) => {
       })
     );
   };
-
+  const hiddenTicketsCounter = ticketsArray.length - unhiddenTickets.length;
   useEffect(() => {
     getTickets();
   }, [props.searchValue]);
-  const hiddenTicketsCounter = ticketsArray.length - unhiddenTickets.length;
 
   return (
     <>
       <div className='sub-header'>
-        <div>
-          {' '}
-          showing
-          {selectedArray.length} results
-        </div>
-        <div id='hide-section'>
-          hidden:
-          <span id='hideTicketsCounter'>{hiddenTicketsCounter}</span>
-          <button id='restoreHideTickets' onClick={restoreHandler}>
-            restore
-          </button>
-        </div>
+        <div>showing {selectedArray.length} results</div>
+        {hiddenTicketsCounter ? (
+          <div id='hide-section'>
+            *hidden:
+            <span id='hideTicketsCounter'>{hiddenTicketsCounter}</span>
+            <a id='restoreHideTickets' onClick={restoreHandler}>
+              <em>
+                <b>restore</b>
+              </em>
+            </a>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className='ticketcontainer'>
         {selectedArray.map((ticket, index) => (
@@ -83,6 +83,7 @@ const TicketContainer = (props) => {
             userEmail={ticket.userEmail}
             creationTime={ticket.creationTime}
             labels={ticket.labels}
+            done={ticket.done}
             id={ticket.id}
           />
         ))}
