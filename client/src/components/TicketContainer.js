@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Ticket from './Ticket';
 import { get, post } from '../lib/restService';
+import Popup from './Popup';
 
 const TicketContainer = (props) => {
   const [ticketsArray, setTicketsArray] = useState([]);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const unhiddenTickets = ticketsArray.filter((ticket) => !ticket.hide);
   let selectedArray = unhiddenTickets;
 
@@ -21,10 +23,12 @@ const TicketContainer = (props) => {
   };
   const solvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/done`);
+    togglePopUp(isPopUpOpen);
     setTicketsArray(data);
   };
   const unsolvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/undone`);
+    togglePopUp(isPopUpOpen);
     setTicketsArray(data);
   };
   const hideHandler = (ticketId) => {
@@ -53,8 +57,20 @@ const TicketContainer = (props) => {
     getTickets();
   }, [props.searchValue]);
 
+  const togglePopUp = () => {
+    setIsPopUpOpen((prev) => !prev);
+  };
+
+  const togglePopUpAway = () => {
+    setIsPopUpOpen(false);
+  };
+  console.log(' ticket container render');
   return (
     <>
+      {isPopUpOpen ? (
+        <Popup togglePopUpAway={togglePopUpAway} isPopUpOpen={isPopUpOpen} />
+      ) : null}
+
       <div className='sub-header'>
         <div>showing {selectedArray.length} results</div>
         {hiddenTicketsCounter ? (
@@ -62,9 +78,7 @@ const TicketContainer = (props) => {
             *hidden:
             <span id='hideTicketsCounter'>{hiddenTicketsCounter}</span>
             <a id='restoreHideTickets' onClick={restoreHandler}>
-              <em>
-                <b>restore</b>
-              </em>
+              <b>restore</b>
             </a>
           </div>
         ) : (
@@ -78,13 +92,7 @@ const TicketContainer = (props) => {
             solvedHandler={solvedHandler}
             unsolvedHandler={unsolvedHandler}
             hideHandler={hideHandler}
-            title={ticket.title}
-            content={ticket.content}
-            userEmail={ticket.userEmail}
-            creationTime={ticket.creationTime}
-            labels={ticket.labels}
-            done={ticket.done}
-            id={ticket.id}
+            ticket={ticket}
           />
         ))}
       </div>

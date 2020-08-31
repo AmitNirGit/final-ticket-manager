@@ -2,9 +2,18 @@ import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 
 const Ticket = (props) => {
+  const {
+    title,
+    content,
+    userEmail,
+    creationTime,
+    labels,
+    id,
+    done,
+  } = props.ticket;
   return (
     <div className='ticket'>
-      {props.done ? (
+      {done ? (
         <div>
           <mark>solved</mark>
         </div>
@@ -13,24 +22,24 @@ const Ticket = (props) => {
           <p className='unsolved'>unsolved</p>
         </div>
       )}
-      <div className='ticket-title'>{props.title}</div>
-      <div className='ticket-description'>{props.content}</div>
+      <div className='ticket-title'>{title}</div>
+      <div className='ticket-description'>{content}</div>
       <div className='ticket-foot'>
         <span>
           Email:
-          {props.userEmail}
+          {userEmail}
         </span>{' '}
         ||
         <span>
           Creation time:
-          {Date(props.creationTime)}
+          {Date(creationTime)}
         </span>{' '}
         ||
         <span>
           {' '}
           Labeles:
-          {props.labels !== undefined ? (
-            props.labels.map((label) => (
+          {labels !== undefined ? (
+            labels.map((label) => (
               <span key={label} className='label'>
                 {label}
               </span>
@@ -47,20 +56,20 @@ const Ticket = (props) => {
           aria-label='text primary button group'>
           <Button
             onClick={() => {
-              props.solvedHandler(props.id);
+              props.solvedHandler(id);
             }}>
             Solved
           </Button>
           <Button
             onClick={() => {
-              props.unsolvedHandler(props.id);
+              props.unsolvedHandler(id);
             }}>
             unsolved
           </Button>
           <Button
             className='hideTicketButton'
             onClick={() => {
-              props.hideHandler(props.id);
+              props.hideHandler(id);
             }}>
             Hide
           </Button>
