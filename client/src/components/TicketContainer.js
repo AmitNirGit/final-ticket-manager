@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Ticket from './Ticket';
 import { get, post } from '../lib/restService';
-import Popup from './Popup';
 
 const TicketContainer = (props) => {
   const [ticketsArray, setTicketsArray] = useState([]);
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const unhiddenTickets = ticketsArray.filter((ticket) => !ticket.hide);
-  let selectedArray = unhiddenTickets;
+  let selectedArray;
 
   if (props.selectedRadioValue === 'All') {
     selectedArray = unhiddenTickets;
@@ -21,16 +19,17 @@ const TicketContainer = (props) => {
     const { data } = await get(`api/tickets?searchText=${props.searchValue}`);
     setTicketsArray(data);
   };
+
   const solvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/done`);
-    togglePopUp(isPopUpOpen);
     setTicketsArray(data);
   };
+
   const unsolvedHandler = async (ticketId) => {
     const { data } = await post(`api/tickets/${ticketId}/undone`);
-    togglePopUp(isPopUpOpen);
     setTicketsArray(data);
   };
+
   const hideHandler = (ticketId) => {
     setTicketsArray(() =>
       ticketsArray.map((ticket) => {
@@ -57,20 +56,8 @@ const TicketContainer = (props) => {
     getTickets();
   }, [props.searchValue]);
 
-  const togglePopUp = () => {
-    setIsPopUpOpen((prev) => !prev);
-  };
-
-  const togglePopUpAway = () => {
-    setIsPopUpOpen(false);
-  };
-  console.log(' ticket container render');
   return (
     <>
-      {isPopUpOpen ? (
-        <Popup togglePopUpAway={togglePopUpAway} isPopUpOpen={isPopUpOpen} />
-      ) : null}
-
       <div className='sub-header'>
         <div>showing {selectedArray.length} results</div>
         {hiddenTicketsCounter ? (

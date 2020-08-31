@@ -34,20 +34,15 @@ const Ticket = (props) => {
           Creation time:
           {Date(creationTime)}
         </span>{' '}
-        ||
-        <span>
-          {' '}
-          Labeles:
-          {labels !== undefined ? (
-            labels.map((label) => (
+      </div>
+      <div className='labels'>
+        {labels !== undefined
+          ? labels.map((label) => (
               <span key={label} className='label'>
                 {label}
               </span>
             ))
-          ) : (
-            <span>no labels</span>
-          )}
-        </span>
+          : null}
       </div>
       <div className='ticket-buttons'>
         <ButtonGroup
